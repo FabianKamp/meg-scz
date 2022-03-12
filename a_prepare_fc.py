@@ -3,7 +3,7 @@ from utils import *
 from func_conn import *
 import config
 
-subjects = get_subjects(config.group)[:1]
+subjects = get_subjects(config.group)
 print(subjects)
 
 if __name__ == '__main__':
