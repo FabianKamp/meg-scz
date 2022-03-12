@@ -15,7 +15,7 @@ if __name__ == '__main__':
         for limits in freq_bands:
             freq_key = f"{limits[0]}-{limits[1]}"
             # calculate the functional connectivity
-            fc = get_env_fc(data, fsample, limits, processes=3)
+            fc = get_env_fc(data, fsample, limits, processes=10)
             # normalize the connectivity
             norm_fc = normalize_fc(fc)
 
