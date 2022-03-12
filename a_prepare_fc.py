@@ -4,6 +4,7 @@ from func_conn import *
 import config
 
 subjects = get_subjects(config.group)[:1]
+print(subjects)
 
 if __name__ == '__main__':
     for subject in subjects:
@@ -11,7 +12,7 @@ if __name__ == '__main__':
         data, fsample = load_mat(subject, config.group)        
         fcs = {}
         norm_fcs = {} 
-        for limits in config.freq_bands[:1]:
+        for limits in config.freq_bands:
             freq_key = f"{limits[0]}-{limits[1]}"
             # calculate the functional connectivity
             fc = get_env_fc(data, fsample, limits, processes=10)
