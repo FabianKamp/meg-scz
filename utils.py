@@ -1,11 +1,7 @@
 import numpy as np
 import os
 import mat73
-
-# data_dir = "/mnt/raid/data/SFB1315/Uhlhaas_MEG/VIRTCHAN/DATA"
-data_dir = "C:\\Users\\Kamp\\Documents\\scz\\data"
-# result_dir = "/mnt/raid/data/SFB1315/Uhlhaas_MEG/RESULTS/FUNCONN"
-result_dir = "C:\\Users\\Kamp\\Documents\\scz\\results"
+from config import *
 
 def load_mat(subject, group):
     file_name = subject + "_AAL94_norm_new.mat"

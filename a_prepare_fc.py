@@ -1,14 +1,9 @@
 import numpy as np
-import itertools
 from utils import *
 from func_conn import *
+from config import *
 
-####################################
-# Define group and frequency bands #
-####################################
 
-group = 'HC'
-freq_bands = [[1,3], [4,7], [8,12], [18, 22], [30,46], [64,90]] 
 subjects = get_subjects(group)[:1]
 
 if __name__ == '__main__':
