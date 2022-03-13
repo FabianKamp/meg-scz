@@ -15,9 +15,9 @@ freq_bands = [[1,3.9],
               [84, 88],
               [64,90]]
 
-####################################
-# Define data and result directory #
-####################################
+######################################
+# Define data and result directories #
+######################################
 
 data_dir = "/mnt/raid/data/SFB1315/Uhlhaas_MEG/VIRTCHAN/DATA"
 # data_dir = "C:\\Users\\Kamp\\Documents\\scz\\data"
