@@ -2,7 +2,9 @@
 # Define group and frequency bands #
 ####################################
 
-group = 'CHR'
+groups = ['CHR', 'HC', 'FEP', 'CLR']
+group = 'FEP'
+
 freq_bands = [[1,3.9], 
               [4,7.9], 
               [8,12.9], 
