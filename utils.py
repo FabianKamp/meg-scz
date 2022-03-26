@@ -20,6 +20,13 @@ def save_fcs(fcs, subject, group):
     file_path = os.path.join(result_dir, group, file_name)
     np.savez(file_path, **fcs)
 
+def load_fcs(subject, group):
+    result_dir = os.path.join(config.result_dir, "FUNCONN")
+    file_name = subject + "_func_conn.npz"
+    file_path = os.path.join(result_dir, group, file_name)
+    fcs = np.load(file_path)
+    return fcs
+
 def save_norm_fcs(fcs, subject, group):
     result_dir = os.path.join(config.result_dir, "NORM_FUNCONN")
     group_dir = os.path.join(result_dir, group)
