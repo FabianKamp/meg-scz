@@ -3,7 +3,7 @@
 ####################################
 
 groups = ['CHR', 'HC', 'FEP', 'CLR']
-group = 'CLR'
+group = 'FEP'
 
 freq_bands = [[1,3.9], 
               [4,7.9], 
