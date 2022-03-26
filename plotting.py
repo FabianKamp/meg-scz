@@ -14,6 +14,7 @@ def plot_fcs(subject, group):
                         figsize=(9,8), 
                         sharex=True,
                         sharey=True)
+    fig.suptitle(f'Subject {subject}')
     for n, (key, val) in enumerate(fcs.items()): 
         cax = ax.ravel()[n].imshow(val)
         ax.ravel()[n].set_title(key)
@@ -28,5 +29,7 @@ def generate_fcs_pdf(group):
             fig = plot_fcs(sub, group)
             pdf.savefig(fig)
             break
+
+generate_fcs_pdf(config.group)
 
 
