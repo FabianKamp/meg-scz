@@ -3,6 +3,7 @@ from utils import *
 from func_conn import *
 import config
 
+# TODO: Rerun the first 15 subjects of the FEP and the CLR group
 subjects = get_subjects(config.group)[15:]
 print(subjects)
 
