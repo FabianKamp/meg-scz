@@ -20,9 +20,13 @@ def save_fcs(fcs, subject, group):
     file_path = os.path.join(result_dir, group, file_name)
     np.savez(file_path, **fcs)
 
-def load_fcs(subject, group):
-    result_dir = os.path.join(config.result_dir, "FUNCONN")
-    file_name = subject + "_func_conn.npz"
+def load_fcs(subject, group, norm=False):
+    if norm:
+        result_dir = os.path.join(config.result_dir, "NORM_FUNCONN")
+        file_name = subject + "_norm_func_conn.npz"
+    else: 
+        result_dir = os.path.join(config.result_dir, "FUNCONN")
+        file_name = subject + "_func_conn.npz"
     file_path = os.path.join(result_dir, group, file_name)
     fcs = np.load(file_path)
     return fcs
@@ -34,6 +38,12 @@ def save_norm_fcs(fcs, subject, group):
         os.mkdir(group_dir)
     file_name = subject + "_norm_func_conn.npz"
     file_path = os.path.join(result_dir, group, file_name)
+    np.savez(file_path, **fcs)
+
+def save_avg_fcs(fcs, group):
+    result_dir = os.path.join(config.result_dir, "AVG_FUNCONN")
+    file_name = group + "_avg_func_conn.npz"
+    file_path = os.path.join(result_dir, file_name)
     np.savez(file_path, **fcs)
 
 def get_subjects(group): 
