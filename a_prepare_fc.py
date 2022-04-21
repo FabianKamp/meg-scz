@@ -3,7 +3,8 @@ from utils import *
 from func_conn import *
 import config
 
-subjects = get_subjects(config.group)[:15]
+# subjects = get_missing_subjects(config.group)
+subjects = get_subjects(config.group)
 print(subjects)
 
 if __name__ == '__main__':
