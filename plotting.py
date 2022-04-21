@@ -36,8 +36,6 @@ def generate_fcs_pdf(group, norm):
             except: 
                 print(f'Subject {sub}, group {group} not found')
             
-
-# Plot fcs
 for group in config.groups:
     generate_fcs_pdf(group, norm=True)
 

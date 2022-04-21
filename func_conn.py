@@ -1,4 +1,6 @@
 import numpy as np
+import os
+import pandas as pd
 from mne.filter import filter_data, next_fast_len
 from scipy.signal import hilbert
 from scipy.signal import resample
@@ -145,3 +147,33 @@ def get_group_fcs(group):
         avg_fc = np.mean(fcs, axis=0)
         avg_fcs[freq_key] = avg_fc
     return avg_fcs
+
+def get_gbc():
+    """
+    Calculates GBC and saves it to Dataframe
+    """ 
+    result = []
+    for group in groups:
+        subjects = get_subjects(group) 
+        for sub in subjects: 
+            fcs = load_fcs(sub, group, norm=False)
+            norm_fcs = load_fcs(sub, group, norm=True)
+            for limits in freq_bands:
+                freq_key = f"{limits[0]}-{limits[1]}"
+                fc = fcs[freq_key]
+                norm_fc = norm_fcs[freq_key]
+                # Calc GBC
+                np.fill_diagonal(fc, 0)
+                np.fill_diagonal(norm_fc, 0)
+                GBC = np.sum(fc, axis=-1) / fc.shape[0]
+                norm_GBC = np.sum(norm_fc, axis=-1) / norm_fc.shape[0]
+
+                for n in range(len(GBC)): 
+                    result.append(dict(subject=sub, 
+                                       group=group, 
+                                       frequency=freq_key, 
+                                       region=n, 
+                                       gbc=GBC[n], 
+                                       normalized_gbc=norm_GBC[n]))
+    df = pd.DataFrame(result)
+    return df

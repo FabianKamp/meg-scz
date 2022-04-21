@@ -51,4 +51,15 @@ def get_subjects(group):
     file_names = os.listdir(group_dir)
     subjects = [file_name.split("_")[0] for file_name in file_names]
     return subjects
-        
+
+def get_missing_subjects(group): 
+    all_subjects = get_subjects(group)
+    result_dir = os.path.join(config.result_dir, 'FUNCONN', group)
+    file_names = os.listdir(result_dir)
+    processed_subjects = [file_name.split("_")[0] for file_name in file_names]
+    missing_subjects = [sub for sub in all_subjects if sub not in processed_subjects]
+    return missing_subjects
+
+def save_gbc(df):
+    out_file = os.path.join(config.result_dir, 'GBC', 'gbc.csv')
+    df.to_csv(out_file, index=False)
