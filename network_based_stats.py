@@ -19,6 +19,7 @@ def calc_nbs(groups):
     thresholds = [3.0, 2.5, 2.0]   
     
     inputs = [(freq_band, threshold, groups) for freq_band in config.freq_bands for threshold in thresholds]
+    print(inputs)
     with Pool(20) as p: 
         dfs = p.starmap(_parallel_nbs, inputs)
     p_results = pd.concat(dfs)
@@ -42,7 +43,7 @@ def _parallel_nbs(freq_band, thresh, groups):
         subjects = get_subjects(group)
         n_subjects = len(subjects)
         # NxNxP with P being the number of subjects per group
-        fcs = np.empty(94,94,n_subjects)
+        fcs = np.empty((94,94,n_subjects))
         for n,sub in enumerate(subjects):
             sub_fcs = load_fcs(sub, group, norm=False)
             fcs[:, :, n] = sub_fcs[freq_key]

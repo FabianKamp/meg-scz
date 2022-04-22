@@ -4,7 +4,7 @@ import mat73
 import config
 
 def load_mat(subject, group):
-    file_name = subject + "_AAL94_norm_new.mat"
+    file_name = subject + "_AAL94_norm_new_pca-cleaned.mat"
     file_path = os.path.join(config.data_dir, group, file_name)
     data = mat73.loadmat(file_path)
     fsample = int(data['AAL94_norm']['fsample'])
@@ -49,7 +49,7 @@ def save_avg_fcs(fcs, group):
 def get_subjects(group): 
     group_dir = os.path.join(config.data_dir, group)
     file_names = os.listdir(group_dir)
-    subjects = [file_name.split("_")[0] for file_name in file_names]
+    subjects = set([file_name.split("_")[0] for file_name in file_names])
     return subjects
 
 def get_missing_subjects(group): 

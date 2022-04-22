@@ -3,7 +3,8 @@ import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 import numpy as np
 from utils import *
-from config import * 
+import config
+import os
 
 def plot_fcs(subject, group, norm=False): 
     fcs = load_fcs(subject, group, norm)
@@ -24,10 +25,11 @@ def plot_fcs(subject, group, norm=False):
 
 def generate_fcs_pdf(group, norm):
     subjects = get_subjects(group)
+    subjects = sorted(subjects)
     if norm: 
-        file = os.path.join(plot_dir, 'FUNCONN', f'norm_fcs_{group}.pdf')
+        file = os.path.join(config.plot_dir, 'FUNCONN', f'norm_fcs_{group}.pdf')
     else:
-        file = os.path.join(plot_dir, 'FUNCONN', f'fcs_{group}.pdf')
+        file = os.path.join(config.plot_dir, 'FUNCONN', f'fcs_{group}.pdf')
     with PdfPages(file) as pdf: 
         for sub in subjects: 
             try: 
@@ -36,7 +38,6 @@ def generate_fcs_pdf(group, norm):
             except: 
                 print(f'Subject {sub}, group {group} not found')
             
-for group in config.groups:
-    generate_fcs_pdf(group, norm=True)
+generate_fcs_pdf(config.group, norm=False)
 
 
