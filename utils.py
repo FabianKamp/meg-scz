@@ -11,6 +11,12 @@ def load_mat(subject, group):
     signal = data['AAL94_norm']['trial'][0] 
     return signal, fsample
 
+def _load_mat(file_path):
+    data = mat73.loadmat(file_path)
+    fsample = int(data['AAL94_norm']['fsample'])
+    signal = data['AAL94_norm']['trial'][0] 
+    return signal, fsample
+
 def save_fcs(fcs, subject, group):
     result_dir = os.path.join(config.result_dir, "FUNCONN")
     group_dir = os.path.join(result_dir, group)

@@ -61,7 +61,7 @@ def resampleSignal(data, fsample, resample_num=None, target_freq=None):
     
     return re_signal
 
-def get_env_fc(data, fsample, limits, processes):
+def get_env_fc(data, fsample, limits, processes=2, lowpass=None, demean=True):
     """
     Computes the Functional Connectivity Matrix based on the signal envelope
     Takes settings from configuration File. 
@@ -73,8 +73,10 @@ def get_env_fc(data, fsample, limits, processes):
     # Get complex signal
     n_fft = next_fast_len(time_points)
     complex_signal = hilbert(filtered_signal, N=n_fft, axis=-1)[:, :time_points]
-    pad=100
-    complex_signal = complex_signal[:,pad:-pad]
+    
+    #pad=100
+    #complex_signal = complex_signal[:,pad:-pad]
+    
     signal_conj = complex_signal.conj()
 
     # Get signal envelope
@@ -85,7 +87,7 @@ def get_env_fc(data, fsample, limits, processes):
 
     # Compute orthogonalization and correlation in parallel		
     with Pool(processes=processes) as p: 
-        result = p.starmap(_parallel_orth_corr, [(complex, signal_env, conj_div_env, fsample) 
+        result = p.starmap(_parallel_orth_corr, [(complex, signal_env, conj_div_env, fsample, lowpass, demean) 
                                                 for complex in complex_signal])
     FC = np.array(result)
 
@@ -93,18 +95,24 @@ def get_env_fc(data, fsample, limits, processes):
     FC = (FC.T + FC) / 2.
     return FC
 
-def _parallel_orth_corr(complex_signal, signal_env, conj_div_env, fsample, lowpass=0.2):
+def _parallel_orth_corr(complex_signal, signal_env, conj_div_env, fsample, lowpass, demean):
     """
     Computes orthogonalized correlation of the envelope of the complex signal (nx1 dim array) and the signal envelope  (nxm dim array). 
     """
     # Orthogonalize signal
     orth_signal = (complex_signal * conj_div_env).imag
     orth_env = np.abs(orth_signal)
+
+    if demean:
+        orth_signal -= np.mean(orth_signal, axis=-1, keepdims=True)
+        orth_env -= np.mean(orth_env, axis=-1, keepdims=True)
+
     # Envelope Correlation
     if lowpass is not None:
         # Low-Pass filter
         orth_env = filter_data(orth_env, fsample, 0, lowpass, fir_window='hamming', verbose=False)
         signal_env = filter_data(signal_env, fsample, 0, lowpass, fir_window='hamming', verbose=False)	
+    
     corr_mat = pearson_mat(orth_env, signal_env)	
     corr = np.diag(corr_mat)
     return corr
