@@ -4,6 +4,8 @@ from scipy.signal import hilbert
 from scipy.signal import resample
 import scipy.stats
 from multiprocessing import Pool
+from config import *
+from utils import get_subjects, load_fcs
 
 def pearson_mat(m1,m2):
     """
@@ -129,3 +131,25 @@ def normalize_fc(fc):
     normalize_fc[tril] = scipy.stats.zscore(fc[tril])
     return normalize_fc
 
+def get_group_fcs(group): 
+    """
+    Calculates the mean functional connectivity of the group.
+    """
+    subjects = get_subjects(group)
+    n_subjects = len(subjects)
+    avg_fcs = {}
+    for limits in freq_bands:
+        fcs = np.empty((n_subjects, 94, 94))
+        freq_key = f"{limits[0]}-{limits[1]}"
+        mask = np.ones(fcs.shape[0], bool)
+        for n, sub in enumerate(subjects):  
+            try:  
+                sub_fcs = load_fcs(sub, group, norm=False)
+                fcs[n, :, :] = sub_fcs[freq_key]
+            except: 
+                print(f'Group {group}, Subject {sub} not found.')
+                mask[n] = False
+        fcs = fcs[mask, :, :]
+        avg_fc = np.mean(fcs, axis=0)
+        avg_fcs[freq_key] = avg_fc
+    return avg_fcs
