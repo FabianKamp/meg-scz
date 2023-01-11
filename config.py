@@ -3,7 +3,7 @@
 ####################################
 
 groups = ['CHR', 'HC', 'FEP', 'CLR']
-group = 'HC'
+group = 'FEP'
 freq_bands = [[1,3.9], 
               [4,7.9], 
               [8,12.9], 
@@ -14,12 +14,14 @@ freq_bands = [[1,3.9],
               [84, 88],
               [64,90]]
 
+lowpass_freq = 0.2
+
 ######################################
 # Define data and result directories #
 ######################################
 
 data_dir = "/mnt/raid/data/SFB1315/Uhlhaas_MEG/VIRTCHAN/DATA"
 # data_dir = "C:\\Users\\Kamp\\Documents\\scz\\data"
-result_dir = "/mnt/raid/data/SFB1315/Uhlhaas_MEG/RESULTS"
+result_dir = "/mnt/raid/data/SFB1315/Uhlhaas_MEG/RESULTS/WITHOUT_ARTIFACT"
 # result_dir = "C:\\Users\\Kamp\\Documents\\scz\\results"
 plot_dir = "/mnt/raid/data/SFB1315/Uhlhaas_MEG/RESULTS/PLOTS"
